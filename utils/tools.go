@@ -30,14 +30,21 @@ func MapToStruct(s interface{}, m map[string]interface{}) {
 	}
 }
 
-func StructToMap(obj interface{}, data *map[string]interface{}) {
+func StructToMap(obj interface{}, data *map[string]interface{}, tag bool) {
 	obj1 := reflect.TypeOf(obj)
 	obj2 := reflect.ValueOf(obj)
 
-	for i := 0; i < obj1.NumField(); i++ {
-		(*data)[obj1.Field(i).Name] = obj2.Field(i).Interface()
+	if tag {
+		for i := 0; i < obj1.NumField(); i++ {
+			if string(obj1.Field(i).Tag.Get("json")) != "-" {
+				(*data)[string(obj1.Field(i).Tag.Get("json"))] = obj2.Field(i).Interface()
+			}
+		}
+	} else {
+		for i := 0; i < obj1.NumField(); i++ {
+			(*data)[obj1.Field(i).Name] = obj2.Field(i).Interface()
+		}
 	}
-
 }
 
 func getRequestBody(context *gin.Context, s interface{}) error {

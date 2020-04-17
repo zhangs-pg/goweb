@@ -26,7 +26,6 @@ func GetUsers(c *gin.Context) {
 	for k, v := range c.Request.URL.Query() {
 		filterParams[k] = v[0]
 	}
-
 	users, count, _ := models.GetUsers(&filterParams)
 	c.JSON(http.StatusOK, gin.H{
 		"status": 0,
@@ -34,7 +33,6 @@ func GetUsers(c *gin.Context) {
 		"count":  count,
 		"data":   users,
 	})
-
 }
 
 func UpdateUser(c *gin.Context) {

@@ -4,7 +4,6 @@ import (
 	"crypto/md5"
 	"encoding/hex"
 	"errors"
-	"fmt"
 	"m/models/db"
 	"m/router/middleware"
 	//"github.com/jinzhu/gorm"
@@ -36,31 +35,9 @@ func MD5V(str []byte) string {
 }
 
 //获取users
-func GetUsers(f *map[string]interface{}) (*[]User, int, error) {
-	var users []User
-	var err error
-	count := 0
-
-	limit, limitok := (*f)["limit"]
-	delete(*f, "limit")
-	offset, offsetok := (*f)["offset"]
-	delete(*f, "offset")
-
-	cond, vals, err := WhereBuild(*f)
-	if err != nil {
-		return nil, 0, err
-	}
-
-	query := db.DEFAULTDB.Where(cond, vals...)
-	if limitok && offsetok {
-		query.Limit(limit).Offset(offset).Find(&users)
-	} else {
-		query.Find(&users)
-	}
-
-	db.DEFAULTDB.Table("user").Where(cond, vals...).Count(&count)
-
-	return &users, count, err
+func GetUsers(f *map[string]interface{}) (*[]map[string]interface{}, int, error) {
+	result, count, err := GetModels(User{}, f)
+	return result, count, err
 }
 
 func AddUsers(data *[]map[string]interface{}) error {
@@ -70,32 +47,7 @@ func AddUsers(data *[]map[string]interface{}) error {
 
 //更改users
 func UpdateUsers(data *[]map[string]interface{}) int64 {
-	var user User
-	var count int64 = 0
-	var i_d1 interface{}
-	var i_d2 float64
-	var id int64
-	var err bool
-
-	tx := db.DEFAULTDB.Begin()
-
-	for _, d := range *data {
-		i_d1, _ = (d)["id"]
-		i_d2, _ = i_d1.(float64)
-		id = int64(i_d2)
-		user = User{}
-
-		err = tx.First(&user, id).RecordNotFound()
-
-		if err {
-			fmt.Println("find", err)
-			continue
-		}
-		count += tx.Model(&user).Omit("id").Updates(d).RowsAffected
-	}
-
-	tx.Commit()
-
+	count := UpdateModels(User{}, data)
 	return count
 }
 

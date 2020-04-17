@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"m/models/db"
+	"m/utils"
 	"strings"
 
 	"github.com/goinggo/mapstructure"
@@ -97,6 +98,49 @@ func WhereBuild(where map[string]interface{}) (whereSQL string, vals []interface
 		}
 	}
 	return
+}
+
+func GetModels(model interface{}, f *map[string]interface{}) (*[]map[string]interface{}, int, error) {
+	var err error
+	count := 0
+	d := make(map[string]interface{}, 10)
+	data := make([]map[string]interface{}, count)
+
+	limit, limitok := (*f)["limit"]
+	delete(*f, "limit")
+	offset, offsetok := (*f)["offset"]
+	delete(*f, "offset")
+
+	cond, vals, err := WhereBuild(*f)
+	if err != nil {
+		return nil, 0, err
+	}
+
+	switch model.(type) {
+	case User:
+		var users []User
+
+		//query := db.DEFAULTDB.Where(cond, vals...).Select([]string{"name", "id"})
+		query := db.DEFAULTDB.Where(cond, vals...)
+
+		if limitok && offsetok {
+			query.Limit(limit).Offset(offset).Find(&users)
+		} else {
+			query.Find(&users)
+		}
+
+		db.DEFAULTDB.Table("user").Where(cond, vals...).Count(&count)
+
+		for _, u := range users {
+			utils.StructToMap(u, &d, true)
+			data = append(data, d)
+			d = make(map[string]interface{}, 10)
+		}
+
+	}
+
+	return &data, count, err
+
 }
 
 func AddModels(model interface{}, data *[]map[string]interface{}) error {
