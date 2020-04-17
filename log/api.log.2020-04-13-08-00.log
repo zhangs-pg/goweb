@@ -1,0 +1,7 @@
+{"level":"info","msg":"服务器开启","time":"2020-04-13T19:12:59+08:00"}
+{"level":"info","msg":"服务器开启","time":"2020-04-13T19:18:14+08:00"}
+{"level":"info","msg":"服务器开启","time":"2020-04-13T19:19:26+08:00"}
+{"level":"info","msg":"服务器开启","time":"2020-04-13T19:20:15+08:00"}
+{"level":"info","msg":"服务器开启","time":"2020-04-13T19:20:18+08:00"}
+{"level":"info","msg":"| Request : | POST | 127.0.0.1 | /user/login | POST /user/login HTTP/1.1\r\nHost: 127.0.0.1:8080\r\nAccept: */*\r\nAccept-Encoding: gzip, deflate\r\nConnection: keep-alive\r\nContent-Length: 37\r\nToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJRCI6NywiTmFtZSI6Indhbmd3dSJ9.0KGy5bmDZBpYlEqlflXZ57swa6PcbCoZF6MDJ9-QjR4\r\nUser-Agent: python-requests/2.9.1\r\n\r\n{\"password\": \"123\", \"name\": \"wangwu\"}\\n","time":"2020-04-13T19:20:39+08:00"}
+{"level":"info","msg":"| Request : | POST | 127.0.0.1 | /user/login | POST /user/login HTTP/1.1\r\nHost: 127.0.0.1:8080\r\nAccept: */*\r\nAccept-Encoding: gzip, deflate\r\nConnection: keep-alive\r\nContent-Length: 37\r\nToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJRCI6NywiTmFtZSI6Indhbmd3dSJ9.0KGy5bmDZBpYlEqlflXZ57swa6PcbCoZF6MDJ9-QjR4\r\nUser-Agent: python-requests/2.9.1\r\n\r\n{\"name\": \"wangwu\", \"password\": \"123\"}\\n","time":"2020-04-13T19:21:00+08:00"}
